@@ -1,0 +1,158 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:stopwatch"
+        xmlns:System="clr-namespace:System;assembly=System.Runtime" x:Class="stopwatch.MainWindow"
+        mc:Ignorable="d"
+        Icon="Resources\Heinz_Doofenshmirtz.png"
+        Title="Stopwatch Inator" Height="450" Width="800">
+
+    <Grid Name="MainGrid" >
+        <Grid.Background>
+            <ImageBrush ImageSource="Resources\background.png" Stretch="Fill" TileMode="Tile"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <Viewbox>
+            <Label Content="The Stopwatch-Inator" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="40" Name="Title"/>
+        </Viewbox>
+
+        <!-- Content Grid -->
+        <Grid Grid.Row="1" Name="ContentGrid">
+            <Grid.Background>
+                <ImageBrush/>
+            </Grid.Background>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Counters -->
+            <StackPanel Name="CounterPanel" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" Orientation="Horizontal" >
+
+                <!-- Hours -->
+                <Grid Name="HourGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Viewbox Grid.Row="0" Grid.Column="1">
+                        <Button Content="+" Name="HourPlusButton" Width="40" Margin="3" Click="PlusButton_Click" Tag="Hour"/>
+                    </Viewbox>
+
+                    <Viewbox Grid.Row="1" Grid.Column="1">
+                        <Button  Content="-" Name="HourMinusButton" Width="40" Margin="3" Click="MinusButton_Click" Tag="Hour"/>
+                    </Viewbox>
+
+                    <Viewbox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Label  Content="00" Name="HourValue" FontSize="18"></Label>
+                    </Viewbox>
+
+                </Grid>
+
+                <!-- Minutes -->
+                <Grid Name="MinuteGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Viewbox Grid.Row="0" Grid.Column="1">
+                        <Button Content="+" Name="MinutePlusButton" Width="40" Margin="3" Click="PlusButton_Click" Tag="Minute"/>
+                    </Viewbox>
+
+                    <Viewbox Grid.Row="1" Grid.Column="1">
+                        <Button  Content="-" Name="MinuteMinusButton" Width="40" Margin="3" Click="MinusButton_Click" Tag="Minute"/>
+                    </Viewbox>
+
+                    <Viewbox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label  Content="00" Name="MinuteValue" FontSize="18"></Label>
+                    </Viewbox>
+                </Grid>
+
+                <!-- Seconds -->
+                <Grid Name="SecondGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Viewbox Grid.Row="0" Grid.Column="1">
+                        <Button Content="+" Name="SecondPlusButton" Width="40" Margin="3" Click="PlusButton_Click" Tag="Second"/>
+                    </Viewbox>
+
+                    <Viewbox Grid.Row="1" Grid.Column="1">
+                        <Button  Content="-" Name="SecondMinusButton" Width="40" Margin="3" Click="MinusButton_Click" Tag="Second"/>
+                    </Viewbox>
+
+                    <Viewbox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Label  Content="00" Name="SecondValue" FontSize="18"></Label>
+                    </Viewbox>
+                </Grid>
+
+
+            </StackPanel>
+
+
+
+
+            <!-- Buttons -->
+            <Viewbox Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2">
+                <Button x:Name="SelfButton"  Content="Self destruct" FontSize="8" Background="Red" Margin="3" FontWeight="Bold" FontStyle="Normal" Click="SelfButton_Click"/>
+            </Viewbox>
+
+            <Viewbox Grid.Column="0" Grid.Row="3">
+                <Button x:Name="StopButton" Content="Pause" FontSize="9" Width="50" Margin="5,10,5,10" IsEnabled="False" Click="StopButton_Click"/>
+            </Viewbox>
+
+
+            <Viewbox Grid.Column="2" Grid.Row="3">
+                <Button x:Name="StartButton" Content="Start" FontSize="9" Width="50" Margin="5,10,5,10" IsEnabled="False" Click="StartButton_Click"/>
+            </Viewbox>
+
+            <!-- Labels -->
+            <Viewbox Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="1" >
+                <Label Content="00:00:00" FontSize="30" Visibility="Hidden" Name="TimeLeft"></Label>
+            </Viewbox>
+
+
+        </Grid>
+
+    </Grid>
+
+</Window>
