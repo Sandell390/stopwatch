@@ -94,6 +94,7 @@ namespace stopwatch
             HideCounter();
             t = new Thread(CountDown);
             t.Name = "Timer";
+            t.IsBackground = true;
             t.Start();
         }
 
@@ -119,6 +120,7 @@ namespace stopwatch
             TimeLeft.Dispatcher.Invoke(() => { TimeLeft.Content = timeleft; });
 
             timer.PlaySound();
+            timer.isStarted = false;
 
             ShowCounter();
         }

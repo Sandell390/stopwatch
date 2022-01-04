@@ -192,6 +192,7 @@ namespace stopwatch
         {
             if (!selfdestruct)
             {
+                isPaused = false;
                 selfdestruct = true;
                 hour = 0;
                 minute = 0;
