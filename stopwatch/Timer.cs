@@ -38,6 +38,9 @@ namespace stopwatch
             get => second;
         }
 
+        public event EventHandler<TimerCountDownEventArgs> CountDownChanged;
+
+        public event EventHandler<TimerCountDownEventArgs> CountDownStopped; 
 
         public Timer()
         {
@@ -107,40 +110,57 @@ namespace stopwatch
             }
         }
 
+
+        public void StartCountDown()
+        {
+            isStarted = true;
+
+            Thread t = new Thread(CountDown);
+            t.Name = "Timer";
+            t.IsBackground = true;
+            t.Start();
+        }
+
         /// <summary>
         /// counts down
         /// </summary>
-        /// <returns> Time left formatted</returns>
-        public string CountDown()
+        public void CountDown()
         {
-            while (isPaused)
+            while (true)
             {
-                Thread.Sleep(100);
-            }
-
-            if (second <= 0)
-            {
-                if (hour > 0)
+                while (isPaused)
                 {
-                    hour--;
-                    minute = 60;
+                    Thread.Sleep(100);
                 }
-                if (minute > 0)
+
+                CountDownChanged?.Invoke(this, new TimerCountDownEventArgs(hour, minute, second));
+
+                if (second <= 0)
                 {
-                    minute--;
-                    second = 60;
+                    if (hour > 0)
+                    {
+                        hour--;
+                        minute = 60;
+                    }
+                    if (minute > 0)
+                    {
+                        minute--;
+                        second = 60;
+                    }
+
                 }
-                
+
+                if (hour == 0 && minute == 0 && second == 0)
+                {
+                    CountDownStopped?.Invoke(this, new TimerCountDownEventArgs(hour, minute, second));
+                    return;
+                }
+
+                second--;
+
+                Thread.Sleep(1000);
             }
-
-            if (hour == 0 && minute == 0 && second == 0)
-            {
-                return "00:00:00";
-            }
-
-            second--;
-
-            return $"{hour:00}:{minute:00}:{second:00}";
+            
         }
 
         /// <summary>

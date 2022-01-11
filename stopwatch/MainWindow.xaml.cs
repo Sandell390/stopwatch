@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -32,6 +33,7 @@ namespace stopwatch
 
         public MainWindow()
         {
+            
             InitializeComponent();
         }
 
@@ -91,19 +93,40 @@ namespace stopwatch
         /// </summary>
         void StartTimer()
         {
+            timer.CountDownChanged += Timer_CountDownChanged;
+            timer.CountDownStopped += Timer_CountDownStopped;
+
+            timer.StartCountDown();
+
             HideCounter();
-            t = new Thread(CountDown);
-            t.Name = "Timer";
-            t.IsBackground = true;
-            t.Start();
+            
         }
 
+        private void Timer_CountDownStopped(object sender, TimerCountDownEventArgs e)
+        {
+            timer.isStarted = false;
+            TimeLeft.Dispatcher.Invoke(() => { TimeLeft.Content = $"{e.Hour:00}:{e.Minute:00}:{e.Second:00}"; });
+            timer.PlaySound();
+            ShowCounter();
+
+            timer.CountDownChanged -= Timer_CountDownChanged;
+            timer.CountDownStopped -= Timer_CountDownStopped;
+        }
+
+        private void Timer_CountDownChanged(object sender, TimerCountDownEventArgs e)
+        {
+            Dispatcher.Invoke(() => { TimeLeft.Content = $"{e.Hour:00}:{e.Minute:00}:{e.Second:00}"; });
+        }
+
+
+
+        /*
         /// <summary>
         /// Counts down 
         /// </summary>
         void CountDown()
         {
-            timer.isStarted = true;
+            
 
             string timeleft = $"{timer.Hour:00}:{timer.Minute:00}:{timer.Second:00}";
             do
@@ -122,9 +145,11 @@ namespace stopwatch
             timer.PlaySound();
             timer.isStarted = false;
 
+            
+
             ShowCounter();
         }
-
+        */
         /// <summary>
         /// Shows the plus and minus buttons and hides the timer
         /// </summary>
